@@ -1,7 +1,10 @@
 import { validators, registerValidator, errors } from './validators';
+import { ValidatorErrors } from './ValidatorErrors';
 import { setGettext } from './gettext';
 
 class Validator {
+
+  static ValidatorErrors = ValidatorErrors;
 
   static setGettext(fn: Function): void {
     setGettext(fn);
@@ -28,7 +31,7 @@ class Validator {
   }
 
   async validate(data: any = {}, onlyOne?: string): Promise<boolean> {
-    const errors: any = {};
+    const errors: ValidatorErrors = new ValidatorErrors();
 
     let keys: string[];
 
@@ -66,34 +69,28 @@ class Validator {
           try {
             await fn(value, data[rule], data);
           } catch (err) {
-            (!errors[name]) && (errors[name] = []);
-
-            errors[name].push(err);
+            errors.set(name, err);
           }
         } else if (typeof rule === 'function') {
           try {
             await fn(value, data);
           } catch (err) {
-            (!errors[name]) && (errors[name] = []);
-
-            errors[name].push(err);
+            errors.set(name, err);
           }
         } else {
           try {
             await fn(value, rule, data);
           } catch (err) {
-            (!errors[name]) && (errors[name] = []);
-
-            errors[name].push(err);
+            errors.set(name, err);
           }
         }
       }
     }
 
-    if (Object.keys(errors).length === 0) {
-      return true;
-    } else {
+    if (errors.contains()) {
       throw errors;
+    } else {
+      return true;
     }
   }
 
