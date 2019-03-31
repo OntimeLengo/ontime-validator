@@ -1,4 +1,5 @@
 export class ValidatorErrors {
+  constructor(errors: any)
   contains(): boolean;
   has(key: string): boolean;
   set(key: string, val: string | Error): void;

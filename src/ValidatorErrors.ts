@@ -1,5 +1,13 @@
 class ValidatorErrors {
 
+  constructor(errors: any = {}) {
+    Object.keys(errors).forEach((k: string) => {
+      const vals: string[] = errors[k];
+
+      vals.forEach((v: string) => this.set(k, v));
+    });
+  }
+
   contains(): boolean {
     return !!Object.keys(this).length;
   }
