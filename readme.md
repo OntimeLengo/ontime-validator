@@ -8,7 +8,7 @@ The library is used to validate any data. It has full async/await support. For i
 
 ```javascript
 import axios from 'axios';
-import { Validator } from 'ontime-validator';
+import createValidator, { Validator } from 'ontime-validator';
 
 // define validator rules
 const rules = {
@@ -44,6 +44,8 @@ const dataToValidate = {
 
 // create validator instance
 const validator = new Validator(rules);
+// or the same throught factory
+const validator = createValidator(rules);
 
 // First example, check correct data 
 try {

@@ -1,6 +1,7 @@
 import { validators, registerValidator, errors } from './validators';
 import { ValidatorErrors } from './ValidatorErrors';
 import { setGettext } from './gettext';
+import { IRules, IRule } from './interfaces';
 
 class Validator {
 
@@ -22,10 +23,10 @@ class Validator {
     return errors;
   }
 
-  private _allRules: any;
-  private _allRulesKeys: any[string];
+  private _allRules: IRules;
+  private _allRulesKeys: string[];
 
-  constructor(allRules: any) {
+  constructor(allRules: IRules) {
     this._allRules = allRules;
     this._allRulesKeys = Object.keys(allRules);
   }
@@ -47,7 +48,7 @@ class Validator {
 
     for (let i = 0; keys[i]; i++) {
       const name: string = keys[i];
-      const rules: any = this._allRules[name];
+      const rules: IRule = this._allRules[name];
       const value: any = data[name];
       const rulesKeys: string[] = Object.keys(rules);
 

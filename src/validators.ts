@@ -1,28 +1,6 @@
 import { gettext } from './gettext';
-
-interface IValidators {
-  req: Function;
-  email: Function;
-  url: Function;
-  max: Function;
-  min: Function;
-  max_len: Function;
-  maxLen: Function;
-  min_len: Function;
-  minLen: Function;
-  confirm: Function;
-  reg_exp: Function;
-  regExp: Function;
-  gt: Function;
-  ge: Function;
-  lt: Function;
-  le: Function;
-  list: Function;
-  listSelect: Function;
-  alphaNumeric: Function;
-  all: Function;
-  [index: string]: Function;
-}
+import { IValidators } from './interfaces';
+import { TNumber } from './types';
 
 const errors: any = {
   req: 'validator.req',
@@ -108,14 +86,14 @@ async function Url(value: string = ''): Promise<boolean> {
   }
 }
 
-async function Max(value: any = 0, max: number): Promise<boolean> {
+async function Max(value: TNumber = 0, max: number): Promise<boolean> {
   if (value === null) {
     return true;
   } else {
     if (value.toString().indexOf('.') >= 0) {
       value = parseFloat(value as string);
     } else {
-      value = parseInt(value, 10);
+      value = parseInt(value as string, 10);
     }
 
     if (max >= value) {
@@ -126,14 +104,14 @@ async function Max(value: any = 0, max: number): Promise<boolean> {
   }
 }
 
-async function Min(value: any = 0, min: number): Promise<boolean> {
+async function Min(value: TNumber = 0, min: number): Promise<boolean> {
   if (value === null) {
     return true;
   } else {
     if (value.toString().indexOf('.') >= 0) {
-      value = parseFloat(value);
+      value = parseFloat(value as string);
     } else {
-      value = parseInt(value, 10);
+      value = parseInt(value as string, 10);
     }
     if (min <= value) {
       return true;
@@ -143,7 +121,7 @@ async function Min(value: any = 0, min: number): Promise<boolean> {
   }
 }
 
-async function MaxLen(value: any = '', max: number): Promise<boolean> {
+async function MaxLen(value: string | null = '', max: number): Promise<boolean> {
   if (value === null) {
     return true;
   } else {
@@ -157,7 +135,7 @@ async function MaxLen(value: any = '', max: number): Promise<boolean> {
   }
 }
 
-async function MinLen(value: any = '', min: number): Promise<boolean> {
+async function MinLen(value: string = '', min: number): Promise<boolean> {
   if (value === null) {
     return true;
   } else {
@@ -193,8 +171,8 @@ async function Confirm(value: any = '', confirm: any = ''): Promise<boolean> {
   }
 }
 
-async function Gt(value: any = 0, gt: number): Promise<boolean> {
-  value = parseInt(value, 10) || 0;
+async function Gt(value: TNumber = 0, gt: number): Promise<boolean> {
+  value = parseInt(value as string, 10) || 0;
 
   if (value > gt) {
     return true;
@@ -203,8 +181,8 @@ async function Gt(value: any = 0, gt: number): Promise<boolean> {
   }
 }
 
-async function Ge(value: any = 0, ge: number): Promise<boolean> {
-  value = parseInt(value, 10) || 0;
+async function Ge(value: TNumber = 0, ge: number): Promise<boolean> {
+  value = parseInt(value as string, 10) || 0;
 
   if (value >= ge) {
     return true;
@@ -213,8 +191,8 @@ async function Ge(value: any = 0, ge: number): Promise<boolean> {
   }
 }
 
-async function Lt(value: any = 0, lt: number): Promise<boolean> {
-  value = parseInt(value, 10) || 0;
+async function Lt(value: TNumber = 0, lt: number): Promise<boolean> {
+  value = parseInt(value as string, 10) || 0;
 
   if (value < lt) {
     return true;
@@ -223,8 +201,8 @@ async function Lt(value: any = 0, lt: number): Promise<boolean> {
   }
 }
 
-function Le(value: any = 0, le: boolean) {
-  value = parseInt(value, 10) || 0;
+function Le(value: TNumber = 0, le: number) {
+  value = parseInt(value as string, 10) || 0;
 
   if (value <= le) {
     return true;
@@ -249,7 +227,7 @@ async function ListSelect(value: any[] = []): Promise<boolean> {
   }
 }
 
-async function AlphaNumeric(value: any = ''): Promise<boolean> {
+async function AlphaNumeric(value: string = ''): Promise<boolean> {
   const r: RegExp = /[^a-zA-Z0-9-\s]/;
 
   if (r.test(value)) {

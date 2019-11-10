@@ -18,19 +18,19 @@ const translation: any = {
   'validator.all': 'An invalid character'
 };
 
-function format(s: string, c: any = {}, formatter: RegExp = /{{\s?(\w+)\s?}}/g) {
+function format(s: string, c: any = {}, formatter: RegExp = /{{\s?(\w+)\s?}}/g): string {
   return s.replace(formatter, (m: any, p: any) => c[p]);
 }
 
-let defGettext: Function = (key: string, options: any = {}) => {
+let defGettext: Function = (key: string, options: any = {}): string => {
   return format(translation[key], options);
 };
 
-function gettext(...args: any[]) {
+function gettext(...args: any[]): string {
   return defGettext(...args);
 }
 
-function setGettext(fn: Function) {
+function setGettext(fn: Function): void {
   defGettext = fn;
 }
 

@@ -5,11 +5,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
 
   entry: {
-    app: './src/index'
+    index: './src/index'
   },
 
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
     globalObject: "this",
     libraryTarget: 'umd',
